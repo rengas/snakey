@@ -16,10 +16,6 @@ func OK(ctx context.Context, w http.ResponseWriter, v interface{}) {
 	WriteJSON(ctx, w, v, http.StatusOK)
 }
 
-func Accepted(ctx context.Context, w http.ResponseWriter, v interface{}) {
-	WriteJSON(ctx, w, v, http.StatusAccepted)
-}
-
 func UnProcessableEntity(ctx context.Context, w http.ResponseWriter, err error) {
 	WriteJSON(ctx, w, ErrorResponse{Error: err}, http.StatusUnprocessableEntity)
 }
@@ -30,14 +26,6 @@ func TeaPot(ctx context.Context, w http.ResponseWriter, err error) {
 
 func BadRequest(ctx context.Context, w http.ResponseWriter, err error) {
 	WriteJSON(ctx, w, ErrorResponse{Error: err}, http.StatusBadRequest)
-}
-
-func InternalServerError(ctx context.Context, w http.ResponseWriter, err error) {
-	WriteJSON(ctx, w, ErrorResponse{Error: err}, http.StatusInternalServerError)
-}
-
-func NotFound(ctx context.Context, w http.ResponseWriter, err error) {
-	WriteJSON(ctx, w, ErrorResponse{Error: err}, http.StatusNotFound)
 }
 
 func ReadJson(r *http.Request, v interface{}) error {

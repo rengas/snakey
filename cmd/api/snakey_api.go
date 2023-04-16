@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/google/uuid"
-	"log"
 	"math/rand"
 	"net/http"
 	skerror "snakey/pkg/errors"
@@ -50,10 +49,6 @@ type NewResponse struct {
 	Game
 }
 
-type ErrorResponse struct {
-	Error string `json:"error"`
-}
-
 func (a *SnakeyAPI) New(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 	width, height, err := httputils.GetWidthAndHeight(req)
@@ -93,7 +88,7 @@ type ValidateRequest struct {
 	Ticks []Tick `json:"ticks"`
 }
 
-type ValidateReponse struct {
+type ValidateResponse struct {
 	Game Game `json:"game"`
 }
 
@@ -114,7 +109,6 @@ func (a *SnakeyAPI) Validate(w http.ResponseWriter, req *http.Request) {
 	for _, v := range ur.Ticks {
 		newPosX := state.Snake.X + v.X
 		newPosY := state.Snake.Y + v.Y
-		log.Printf("snake x :%d, snake y:%d", newPosX, newPosY)
 		err := state.Scored(newPosX, newPosY)
 
 		if err != nil {
@@ -142,7 +136,7 @@ func (a *SnakeyAPI) Validate(w http.ResponseWriter, req *http.Request) {
 	ur.Game.Score = currentScore
 	ur.Game.Snake.X = state.Snake.X
 	ur.Game.Snake.Y = state.Snake.Y
-	httputils.OK(ctx, w, ValidateReponse{
+	httputils.OK(ctx, w, ValidateResponse{
 		Game: ur.Game,
 	})
 }
